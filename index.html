@@ -9,6 +9,7 @@
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
     <img id="img" src=""></img>
+    <input type="button" value="domain check" onclick="JavaScript:domainCheck()"/>
     <div id="domain-check-result"></div>
     <script>
         var ipc = require('ipc');
@@ -16,20 +17,24 @@
             ipc.send('online-status-changed', navigator.onLine ? 'online' : 'offline');
         };
 
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+
+        updateOnlineStatus();
+
         ipc.on('new-pic', function(message) {
             console.log(message);
             document.getElementById('img').src = message;
         });
 
+        var domainCheck = function(){
+            ipc.send('domain-check-button', 'click');
+        }
+
         ipc.on('domain-check-result', function(message) {
             console.log(message);
             document.getElementById('domain-check-result').innerHTML += message;
         });
-
-        window.addEventListener('online', updateOnlineStatus);
-        window.addEventListener('offline', updateOnlineStatus);
-
-        updateOnlineStatus();
     </script>
   </body>
 </html>

@@ -56,17 +56,12 @@ app.on('ready', function() {
     });
     onlineStatusWindow.loadUrl('file://' + __dirname + '/online-status.html');
 
-    // Register a 'ctrl+x' shortcut listener.
-    var ret = globalShortcut.register('ctrl+x', function() {
-        console.log('ctrl+x is pressed');
+    // Register a 'ctrl+v' shortcut listener.
+    var ret = globalShortcut.register('ctrl+v', function() {
+        console.log('ctrl+v is pressed');
         shell.beep();
         // shell.showItemInFolder(__dirname);
         // shell.openExternal('http://idc.wf');
-
-        domain.checkDomains("dc", function(res) {
-            console.log('check domain dc');
-            mainWindow.webContents.send('domain-check-result', res);
-        })
 
         var image = clipboard.readImage();
         if (image.isEmpty()) {
@@ -85,7 +80,7 @@ app.on('ready', function() {
     }
 
     // Check whether a shortcut is registered.
-    console.log(globalShortcut.isRegistered('ctrl+x'));
+    console.log(globalShortcut.isRegistered('ctrl+v'));
 
     // 打开开发工具
     // Open the DevTools.
@@ -106,14 +101,27 @@ app.on('ready', function() {
 
 app.on('will-quit', function() {
     // Unregister a shortcut.
-    globalShortcut.unregister('ctrl+x');
+    globalShortcut.unregister('ctrl+v');
 
     // Unregister all shortcuts.
     globalShortcut.unregisterAll();
 });
 
+// 在线状态时间监听
 ipc.on('online-status-changed', function(event, status) {
     console.log(status);
+});
+
+// 检查域名
+ipc.on('domain-check-button', function(event, message) {
+    console.log(message);
+
+    if (message == 'click') {
+        domain.checkDomains("dc", function(res) {
+            console.log('check domain dc');
+            mainWindow.webContents.send('domain-check-result', res);
+        })
+    }
 });
 
 //var dockMenu = Menu.buildFromTemplate([{
