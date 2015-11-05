@@ -116,19 +116,19 @@ ipc.on('online-status-changed', function(event, status) {
     console.log(status);
 });
 
-var dockMenu = Menu.buildFromTemplate([{
-    label: 'New Window',
-    click: function() {
-        console.log('New Window');
-    }
-}, {
-    label: 'New Window with Settings',
-    submenu: [{
-        label: 'Basic'
-    }, {
-        label: 'Pro'
-    }]
-}, {
-    label: 'New Command...'
-}]);
-app.dock.setMenu(dockMenu);
+//var dockMenu = Menu.buildFromTemplate([{
+//    label: 'New Window',
+//    click: function() {
+//        console.log('New Window');
+//    }
+//}, {
+//    label: 'New Window with Settings',
+//    submenu: [{
+//        label: 'Basic'
+//    }, {
+//        label: 'Pro'
+//    }]
+//}, {
+//    label: 'New Command...'
+//}]);
+//app.dock.setMenu(dockMenu);
